@@ -1,0 +1,25 @@
+{
+  "name": "co_oil_gas",
+  "version": "1.0.0",
+  "description": "Colorado Oil and Gas Locations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sfulleruwyo1/CO_Oil_GAS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sfulleruwyo1/CO_Oil_GAS/issues"
+  },
+  "homepage": "https://github.com/sfulleruwyo1/CO_Oil_GAS#readme",
+  "dependencies": {
+    "@turf/turf": "^5.1.6",
+    "chalk": "^4.1.0",
+    "csvtojson": "^2.0.10",
+    "geojson-validation": "^1.0.2"
+  }
+}
