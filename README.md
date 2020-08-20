@@ -20,4 +20,4 @@ Uses the wells.json and spill.json files to create a hex grid with counts of spi
 ### File Name: oil_well_hexgrid.html
 Displays a leaflet map with the hexgrid created above, and colors the hex grid based on the normalized spills.  ie Spills/Well
 
-![alt text](img/oil.JPG)
+![Spills](img/oil.JPG)
