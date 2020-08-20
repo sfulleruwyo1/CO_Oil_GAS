@@ -21,3 +21,9 @@ Uses the wells.json and spill.json files to create a hex grid with counts of spi
 Displays a leaflet map with the hexgrid created above, and colors the hex grid based on the normalized spills.  ie Spills/Well
 
 ![Spills](img/oil.JPG)
+
+## Trailside Topography
+### File Name: elevation_iso.html
+Displays a leaflet map with topographic lines from a GeoJSON point grid with elevation values in the properties.  Utilizes the turf.isolines method to generate the data from a point grid.  Does not work if the point data is not in a grid format.  Tried random points from another site and the geometry exported empty.  
+
+![Topo](img/topo.JPG)
