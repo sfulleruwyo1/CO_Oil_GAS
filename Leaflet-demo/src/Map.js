@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-//const L = require('leaflet');
 import L from 'leaflet';
 // postCSS import of Leaflet's CSS
 import 'leaflet/dist/leaflet.css';
@@ -7,7 +6,6 @@ import 'leaflet/dist/leaflet.css';
 import geojson from 'json!../data/elevation.json';
 import chromaJs from 'chroma-js';
 const turf = require('@turf/turf');
-//import turf from '@turf/turf';
 import $ from 'jquery';
 
 
@@ -45,11 +43,9 @@ class Map extends Component {
       tileLayer: null,
       geojsonLayer: null,
       geojson: null,
-      subwayLinesFilter: '*',
-      numEntrances: null
+      lines: null
     };
     this._mapNode = null;
-    this.pointToLayer = this.pointToLayer.bind(this);
 
   }
 
@@ -64,12 +60,9 @@ class Map extends Component {
   componentDidUpdate(prevProps, prevState) {
     // code to run when the component receives new props or state
     // check to see if geojson is stored, map is created, and geojson overlay needs to be added
-    if (this.state.geojson && this.state.map && !this.state.geojsonLayer) {
+    if (this.state.geojson && this.state.map && !this.state.lines) {
       // add the geojson overlay
-      this.addGeoJSONLayer(this.state.geojson);
-    }
-
-    const counts = [];
+      const counts = [];
 
             // loop through the feature data
             this.state.geojson.features.forEach(function (feature) {
@@ -79,6 +72,9 @@ class Map extends Component {
             });
 
             this.drawMap(this.state.geojson, counts)
+    }
+
+    
   }
 
   componentWillUnmount() {
@@ -91,52 +87,6 @@ class Map extends Component {
     // could also be an AJAX request that results in setting state with the geojson data
     // for simplicity sake we are just importing the geojson data using webpack's json loader
     this.setState({numEntrances: geojson.features.length, geojson});
-  }
-
-
-  addGeoJSONLayer(geojson) {
-    // create a native Leaflet GeoJSON SVG Layer to add as an interactive overlay to the map
-    // an options object is passed to define functions for customizing the layer
-    const geojsonLayer = L.geoJson(geojson, {
-      onEachFeature: this.onEachFeature,
-      pointToLayer: this.pointToLayer,
-      filter: this.filterFeatures
-    });
-    // add our GeoJSON layer to the Leaflet map object
-    geojsonLayer.addTo(this.state.map);
-    // store the Leaflet GeoJSON layer in our component state for use later
-    this.setState({
-      geojsonLayer
-    });
-    // fit the geographic extent of the GeoJSON layer within the map's bounds / viewport
-    this.zoomToFeature(geojsonLayer);
-  }
-
-
-  zoomToFeature(target) {
-    // pad fitBounds() so features aren't hidden under the Filter UI element
-    var fitBoundsParams = {
-      paddingTopLeft: [200, 10],
-      paddingBottomRight: [10, 10]
-    };
-    // set the map's center & zoom so that it fits the geographic extent of the layer
-    this.state.map.fitBounds(target.getBounds(), fitBoundsParams);
-  }
-
-
-  pointToLayer(feature, latlng) {
-    // renders our GeoJSON points as circle markers, rather than Leaflet's default image markers
-    // parameters to style the GeoJSON markers
-    var markerParams = {
-      radius: 4,
-      fillColor: 'orange',
-      color: '#fff',
-      weight: 1,
-      opacity: 0.5,
-      fillOpacity: 0.8
-    };
-
-    return L.circleMarker(latlng, markerParams);
   }
 
   drawMap(data, counts) {
@@ -171,10 +121,12 @@ class Map extends Component {
         zProperty: 'elevation'
     });
 
-    // create the Leaflet map using the hexgrid geojson data
-    const lines = L.geoJSON(isolines, options);
-    lines.addTo(this.state.map);
     this.drawLegend(breaks, colorize)
+
+    // create the Leaflet map using the hexgrid geojson data
+    const lines = L.geoJson(isolines, options);
+    lines.addTo(this.state.map);
+    this.setState({lines});
 
 }
 
