@@ -27,3 +27,9 @@ Displays a leaflet map with the hexgrid created above, and colors the hex grid b
 Displays a leaflet map with topographic lines from a GeoJSON point grid with elevation values in the properties.  Utilizes the turf.isolines method to generate the data from a point grid.  Does not work if the point data is not in a grid format.  Tried random points from another site and the geometry exported empty.  
 
 ![Topo](img/topo.JPG)
+
+## Trailside Topograhy in React webkit
+### Folder Name: leaflet_demo
+Displays the same leaflet map as the elevation_iso.html file, but is build in a React webkit.  Borrowed most of the leaflet code from Chris Henrick's React-Leaflet-demo.  
+
+![Topo](img/topo.JPG)
