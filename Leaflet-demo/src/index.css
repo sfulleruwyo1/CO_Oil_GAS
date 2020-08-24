@@ -1,0 +1,39 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+#root, #map, #mapUI {
+  width: inherit;
+  height: inherit;
+  background-color: #000;
+}
+#title, #legend {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255, 255, 255);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+#legend span {
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin: 0 5px 4px 0;
+}
+
+#legend li {
+  padding-top: 10px;
+  padding-right: 30px;
+  list-style-type: none;
+  margin: auto;
+  width: 50%;
+
+}
+
+#meta {
+  padding-left: 3px;
+}
