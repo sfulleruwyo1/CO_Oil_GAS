@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
+//const L = require('leaflet');
 import L from 'leaflet';
 // postCSS import of Leaflet's CSS
 import 'leaflet/dist/leaflet.css';
 // using webpack json loader we can import our geojson file like this
 import geojson from 'json!../data/elevation.json';
+import chromaJs from 'chroma-js';
+const turf = require('@turf/turf');
+//import turf from '@turf/turf';
+import $ from 'jquery';
 
-import chroma from 'chroma';
 
 
 // store the map configuration properties in an object,
@@ -74,7 +78,7 @@ class Map extends Component {
                 }
             });
 
-            this.drawMap(geojson, counts)
+            this.drawMap(this.state.geojson, counts)
   }
 
   componentWillUnmount() {
@@ -138,9 +142,9 @@ class Map extends Component {
   drawMap(data, counts) {
 
     // use chroma.limits to determine
-    let breaks = chroma.limits(counts, 'e', 9);
+    let breaks = chromaJs.limits(counts, 'e', 9);
     // build a colorize function
-    const colorize = chroma
+    const colorize = chromaJs
         .scale('OrRd')
         .domain(breaks)
         .mode('lch')
@@ -149,7 +153,7 @@ class Map extends Component {
     // map options
     var options = {
         // style the hexagons
-        style: function (feature, layer) {
+        style: function (feature) {
             return {
                 color: colorize(feature.properties.elevation),
                 weight: 3
@@ -157,18 +161,31 @@ class Map extends Component {
         },
         onEachFeature: function (feature, layer) {
             // attach a tooltip to each
+            let elevFeet;
             elevFeet = Math.round((feature.properties.elevation * 3.28084) / 10) * 10;
             layer.bindTooltip("<strong>Elevation: </strong>" + elevFeet + ' Ft');
         }
     };
 
-    var isolines = turf.isolines(data, breaks, {
+    let isolines = turf.isolines(data, breaks, {
         zProperty: 'elevation'
     });
-    // create the Leaflet map using the hexgrid geojson data
-    L.geoJSON(isolines, options).addTo(map);
-    drawLegend(breaks, colorize)
 
+    // create the Leaflet map using the hexgrid geojson data
+    const lines = L.geoJSON(isolines, options);
+    lines.addTo(this.state.map);
+    this.drawLegend(breaks, colorize)
+
+}
+
+drawLegend(breaks, colorize) {
+  breaks.forEach(function (data) {
+      let color = colorize(data);
+      data = Math.round((data * 3.28084) / 10) * 10;
+
+      $("#legend ul").append(`<li><span style="background:${color}"></span>${data} Ft</li>`)
+
+  })
 }
 
 
@@ -231,11 +248,11 @@ class Map extends Component {
   }
 
   render() {
-    const {} = this.state;
-    return ( <div id = "mapUI" > {}
+    //const {} = this.state;
+    return ( <div id="mapUI" > {}
 
       } 
-      <div ref = {(node) => this._mapNode = node}id = "map" / >
+      <div ref = {(node) => this._mapNode = node}id="map" / >
       </div>
     );
   }

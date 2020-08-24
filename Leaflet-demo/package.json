@@ -64,6 +64,8 @@
   "dependencies": {
     "@turf/turf": "^5.1.6",
     "chroma": "0.0.1",
+    "chroma-js": "^2.1.0",
+    "jquery": "^3.5.1",
     "json-loader": "^0.5.4",
     "leaflet": "^0.7.7",
     "react": "^15.2.1",
