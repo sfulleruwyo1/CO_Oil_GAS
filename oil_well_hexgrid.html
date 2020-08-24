@@ -149,8 +149,7 @@
         function drawMap(data, counts, ) {
 
             // use chroma.limits to determine
-            const breaks = chroma.limits(counts, 'k', 9);
-            console.log(breaks);
+            const breaks = chroma.limits(counts, 'e', 9);
             // build a colorize function
             const colorize = chroma
                 .scale('OrRd')
@@ -194,23 +193,16 @@
         }
 
         function drawLegend(breaks, colorize) {
-            for (var i = 0; i <= breaks.length - 1; i++) {
+            breaks.forEach(function (data, i) {
+                let color = colorize(data);
                 let round = Math.round(breaks[i] * 100) / 100;
-                let color = getColor(round);
                 $('#legend ul').append('<li><span style="background: ' + color + '"></span>' + round +
                     ' Spill(s) Per Oil Well</li>');
-            }
+
+            })
+
         }
 
-        function getColor(round){
-            if (round <= 0.0027) {
-				return '#fff7ec';
-			} else if (round <= 0.03) {
-				return '#fee9cb';
-			}  else if (round <= 0.12) {
-				return '#7f0000'
-			}
-        }
     </script>
 </body>
 
